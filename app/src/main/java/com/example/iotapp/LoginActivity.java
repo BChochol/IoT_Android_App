@@ -2,6 +2,7 @@ package com.example.iotapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (usernameText.equals("admin") && passwordText.equals("admin")) {
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, TemperatureActivity.class);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                 }

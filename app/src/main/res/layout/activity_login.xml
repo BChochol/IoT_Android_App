@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#a3e2e3"
+    android:background="#424242"
     tools:context=".MainActivity">
 
     <TextView
@@ -15,7 +15,8 @@
         android:gravity="center"
         android:text="@string/sign_in"
         android:textSize="35sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="#b8b8b8"/>
 
     <EditText
         android:layout_width="match_parent"
