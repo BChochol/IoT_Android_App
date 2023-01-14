@@ -34,7 +34,7 @@ public class TemperatureActivity extends AppCompatActivity {
         et_temperature = findViewById(R.id.temperature);
 
         RequestQueue queue = Volley.newRequestQueue(TemperatureActivity.this);
-        String url = "https://mocki.io/v1/5bd4f8c6-12ab-4436-bcf8-7fd75458c31e";
+        String url = "http://54.194.132.27:8080/api/v1/records";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {
@@ -44,7 +44,7 @@ public class TemperatureActivity extends AppCompatActivity {
                         //et_temperature.setText("Response is: " + response.substring(0,500));
                         String temp = "";
                         try {
-                            JSONObject info = response.getJSONObject(0);
+                            JSONObject info = response.getJSONObject(response.length()-1);
                             temp = info.getString("temp");
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -55,8 +55,7 @@ public class TemperatureActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //et_temperature.setText("That didn't work!");
-                Toast.makeText(TemperatureActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                et_temperature.setText(error.toString());
             }
         });
 
