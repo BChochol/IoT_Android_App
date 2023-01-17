@@ -6,6 +6,10 @@ android {
     namespace 'com.example.iotapp'
     compileSdk 32
 
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+
     defaultConfig {
         applicationId "com.example.iotapp"
         minSdk 26
@@ -30,11 +34,11 @@ android {
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.5.'
     implementation 'com.google.android.material:material:1.7.0'
-//    implementation 'org.glassfish.jersey.core:jersey-client:2.29.1'
-//    implementation 'org.glassfish.jersey.media:jersey-media-json-jackson:2.29.1'
-//    implementation 'javax.json:javax.json-api:1.1.4'
+    implementation 'org.glassfish.jersey.core:jersey-client:2.29.1'
+    implementation 'org.glassfish.jersey.media:jersey-media-json-jackson:2.29.1'
+    implementation 'javax.json:javax.json-api:1.1.4'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
