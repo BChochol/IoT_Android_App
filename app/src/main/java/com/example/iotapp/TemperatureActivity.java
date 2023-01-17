@@ -34,7 +34,7 @@ public class TemperatureActivity extends AppCompatActivity {
         et_temperature = findViewById(R.id.temperature);
 
         RequestQueue queue = Volley.newRequestQueue(TemperatureActivity.this);
-        String url = "http://54.194.132.27:8080/api/v1/records";
+        String url = "http://54.194.132.27:8080/api/records";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONArray>() {

@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         String passwordText = password.getText().toString();
         Button registerButton = (Button) findViewById(R.id.registerButton);
 
-        String url = "http://dummyinfo";
+        String url = "http://54.194.132.27:8080/api/auth/signup";
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +48,9 @@ public class RegisterActivity extends AppCompatActivity {
                 try {
                     data.put("username", usernameText);
                     data.put("password", passwordText);
+                    data.put("email", "email");
+                    //put a table of roles using data.put containing one record called 'user'
+                    data.put("roles", "user");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
