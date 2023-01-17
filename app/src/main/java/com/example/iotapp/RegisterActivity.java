@@ -42,41 +42,42 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                JSONObject data = new JSONObject();
-                try {
-                    data.put("username", usernameText);
-                    data.put("password", passwordText);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    // create a client
-                    Client client = ClientBuilder.newClient();
-
-                    // create a request object
-                    Entity<JSONObject> jsonEntity = Entity.json(data);
-
-                    Response response = client.target(url)
-                            .request()
-                            .post(jsonEntity);
-
-                    // get the response from the server
-                    int responseCode = response.getStatus();
-                    String responseMessage = response.getStatusInfo().getReasonPhrase();
-                    String responseBody = response.readEntity(String.class);
-
-                    // check if the response is successful
-                    if (responseCode == 200) {
-                        Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(RegisterActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Toast.makeText(RegisterActivity.this, "Register Successful", Toast.LENGTH_SHORT).show();
+//
+//                JSONObject data = new JSONObject();
+//                try {
+//                    data.put("username", usernameText);
+//                    data.put("password", passwordText);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                try {
+//                    // create a client
+//                    Client client = ClientBuilder.newClient();
+//
+//                    // create a request object
+//                    Entity<JSONObject> jsonEntity = Entity.json(data);
+//
+//                    Response response = client.target(url)
+//                            .request()
+//                            .post(jsonEntity);
+//
+//                    // get the response from the server
+//                    int responseCode = response.getStatus();
+//                    String responseMessage = response.getStatusInfo().getReasonPhrase();
+//                    String responseBody = response.readEntity(String.class);
+//
+//                    // check if the response is successful
+//                    if (responseCode == 200) {
+//                        Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(RegisterActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
         });
     }
