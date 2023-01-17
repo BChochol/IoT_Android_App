@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button loginButton = (Button) findViewById(R.id.loginButton);
 
-        String url="http://54.194.132.27:8080/api/auth/signup";
+        String url="http://54.194.132.27:8080/api/auth/signin";
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {

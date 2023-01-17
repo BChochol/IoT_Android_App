@@ -19,6 +19,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -42,8 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(RegisterActivity.this, "Register Successful", Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(RegisterActivity.this, "Register Successful", Toast.LENGTH_SHORT).show();
                 JSONObject data = new JSONObject();
                 try {
                     data.put("username", usernameText);
@@ -79,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
+                    Toast.makeText(RegisterActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
