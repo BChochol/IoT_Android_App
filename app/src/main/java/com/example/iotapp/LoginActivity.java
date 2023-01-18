@@ -9,8 +9,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -24,8 +29,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        TextView username = (TextView) findViewById(R.id.username);
-        TextView password = (TextView) findViewById(R.id.password);
 
         Button loginButton = (Button) findViewById(R.id.loginButton);
 
@@ -35,52 +38,41 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TextView username = (TextView) findViewById(R.id.username);
+                TextView password = (TextView) findViewById(R.id.password);
                 String usernameText = username.getText().toString();
                 String passwordText = password.getText().toString();
-//
-//                if (usernameText.equals("admin") && passwordText.equals("admin")) {
-//                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(LoginActivity.this, TemperatureActivity.class);
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//    }
-//}
-                JSONObject data = new JSONObject();
+
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put("user");
+
+                JSONObject postData = new JSONObject();
                 try {
-                    data.put("username", usernameText);
-                    data.put("password", passwordText);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    postData.put("username", usernameText);
+                    postData.put("password", passwordText);
+                    try{
+                        URL url = new URL("http://54.194.132.27:8080/api/auth/signin");
 
-                try {
-                    // create a client
-                    Client client = ClientBuilder.newClient();
+                        HttpURLConnection conn2 = (HttpURLConnection) url.openConnection();
+                        conn2.setDoOutput(true);
+                        conn2.setRequestMethod("POST");
+                        conn2.setRequestProperty("Content-Type", "application/json");
 
-                    // create a request object
-                    Entity<JSONObject> jsonEntity = Entity.json(data);
+                        OutputStreamWriter out = new OutputStreamWriter(conn2.getOutputStream());
+                        out.write(postData.toString());
+                        out.close();
 
-                    Response response = client.target(url)
-                            .request()
-                            .post(jsonEntity);
+                        if(conn2.getResponseCode() == 200){
+                            Intent intent = new Intent(LoginActivity.this, TemperatureActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Incorrect login", Toast.LENGTH_LONG).show();
+                        }
 
-                    // get the response from the server
-                    int responseCode = response.getStatus();
-                    String responseMessage = response.getStatusInfo().getReasonPhrase();
-                    String responseBody = response.readEntity(String.class);
-
-                    // check if the response is successful
-                    if (responseCode == 200) {
-                        Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                     }
-
-                } catch (Exception e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
