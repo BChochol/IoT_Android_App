@@ -48,7 +48,12 @@ public class ConnectActivity extends AppCompatActivity {
                 String networkPassword = password.getText().toString();
 
                 //connectToNetwork("AGHIOT_EXAMPLE", "", "");
-                sendMessage("SSID=" + "Kasia" + ",Password=" + "Kasia441984" + ",UserID=" + userID);
+//                sendMessage("SSID=" + "Kasia" + ",Password=" + "Kasia441984" + ",UserID=" + userID);
+                Intent intent = new Intent(ConnectActivity.this, TemperatureActivity.class);
+                intent.putExtra("userID", userID);
+                intent.putExtra("deviceID", "");
+                intent.putExtra("message", token);  //to do wyrzucenia
+                startActivity(intent);
             }
 //        });
 
@@ -102,7 +107,6 @@ public class ConnectActivity extends AppCompatActivity {
                 WifiConfiguration wifiConfig = new WifiConfiguration();
                 wifiConfig.SSID = String.format("\"%s\"", networkSSID);
 
-                // Toast.makeText(getApplicationContext(), wifiConfig.SSID+ "", Toast.LENGTH_SHORT).show();
                 if (Looper.getMainLooper() == Looper.myLooper()) {
                     Toast.makeText(getApplicationContext(), "Main Thread", Toast.LENGTH_SHORT).show();
                 } else {
@@ -112,22 +116,8 @@ public class ConnectActivity extends AppCompatActivity {
                     wifiManager.setWifiEnabled(true);
                 }
 
-//        if (networkCapabilities.toUpperCase().contains("WEP")) { // WEP Network.
-//            Toast.makeText(this, "WEP Network", Toast.LENGTH_SHORT).show();
-//
-//            wifiConfig.wepKeys[0] = String.format("\"%s\"", networkPass);
-//            ;
-//            wifiConfig.wepTxKeyIndex = 0;
-//            wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-//            wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
-//        } else if (networkCapabilities.toUpperCase().contains("WPA")) { // WPA Network
-//            Toast.makeText(this, "WPA Network", Toast.LENGTH_SHORT).show();
-//            wifiConfig.preSharedKey = String.format("\"%s\"", networkPass);
-//            ;
-//        } else { // OPEN Network.
-                //Toast.makeText(this, "OPEN Network", Toast.LENGTH_SHORT).show();
+
                 wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-//        }
 
                 int netId = wifiManager.addNetwork(wifiConfig);//
 
@@ -137,50 +127,5 @@ public class ConnectActivity extends AppCompatActivity {
                 wifiManager.reconnect();
             }
         });
-
-//        class ConnectToWifiTask extends AsyncTask<String, Void, Boolean> {
-//            private Context context;
-//
-//            public ConnectToWifiTask(Context context) {
-//                this.context = context;
-//            }
-//
-//            @Override
-//            protected Boolean doInBackground(String... params) {
-//                WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-//                if (wifiManager.isWifiEnabled()) {
-//                    wifiManager.setWifiEnabled(false);
-//                }
-//
-//                WifiConfiguration wifiConfig = new WifiConfiguration();
-//                wifiConfig.SSID = String.format("\"%s\"", "AGHIOT_EXAMPLE");
-//                ;
-//                wifiConfig.status = WifiConfiguration.Status.DISABLED;
-//                wifiConfig.priority = 40;
-//                wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-//                wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-//                wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
-//                wifiConfig.allowedAuthAlgorithms.clear();
-//                wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
-//                wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-//                wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
-//                wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
-//                wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
-//                wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-//
-//                int netId = wifiManager.addNetwork(wifiConfig);
-//                System.out.println("THE NETWORK ID IS" + netId + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//                System.out.println(wifiConfig);
-//                wifiManager.disconnect();
-//                wifiManager.enableNetwork(netId, true);
-//                wifiManager.reconnect();
-//                return wifiManager.reconnect();
-//            }
-//
-//            @Override
-//            protected void onPostExecute(Boolean result) {
-//                // Handle the result on the UI thread
-//            }
-//        }
     }
 }

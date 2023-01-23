@@ -11,12 +11,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.HttpResponse;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -67,9 +70,19 @@ public class LoginActivity extends AppCompatActivity {
 
 
                         if(conn2.getResponseCode() == 200){
+                            InputStream inputStream = conn2.getInputStream();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                            StringBuilder sb = new StringBuilder();
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                sb.append(line);
+                            }
+                            Gson g = new Gson();
+                            LoginRequestDTO me = g.fromJson(sb.toString(), LoginRequestDTO.class);
+                            System.out.println(me.getAccessToken());
                             Intent intent = new Intent(LoginActivity.this, ConnectActivity.class);
                             intent.putExtra("userID", usernameText);
-                            intent.putExtra("message", conn2.getResponseMessage());
+                            intent.putExtra("message", me.getAccessToken());
                             startActivity(intent);
                         } else {
                             Toast.makeText(LoginActivity.this, "Incorrect login", Toast.LENGTH_LONG).show();
