@@ -4,15 +4,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.HttpResponse;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -29,11 +33,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
         Button loginButton = (Button) findViewById(R.id.loginButton);
 
-        String url="http://54.194.132.27:8080/api/auth/signin";
-
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,8 +65,11 @@ public class LoginActivity extends AppCompatActivity {
                         out.write(postData.toString());
                         out.close();
 
+
                         if(conn2.getResponseCode() == 200){
-                            Intent intent = new Intent(LoginActivity.this, TemperatureActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, ConnectActivity.class);
+                            intent.putExtra("userID", usernameText);
+                            intent.putExtra("message", conn2.getResponseMessage());
                             startActivity(intent);
                         } else {
                             Toast.makeText(LoginActivity.this, "Incorrect login", Toast.LENGTH_LONG).show();
