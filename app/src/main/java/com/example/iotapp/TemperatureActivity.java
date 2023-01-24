@@ -39,7 +39,6 @@ public class TemperatureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temperature);
 
-        btn_refresh = findViewById(R.id.refreshButton);
         btn_gettemp = findViewById(R.id.getTemperatureButton);
         et_temperature = findViewById(R.id.temperature);
 
@@ -47,7 +46,6 @@ public class TemperatureActivity extends AppCompatActivity {
         String userID = intent.getStringExtra("userID");
         String deviceID = intent.getStringExtra("deviceID");
         String token = intent.getStringExtra("message");
-        System.out.println(token + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
         RequestQueue queue = Volley.newRequestQueue(TemperatureActivity.this);
         String url = "http://54.194.132.27:8080/api/devices";
@@ -76,19 +74,17 @@ public class TemperatureActivity extends AppCompatActivity {
 // Add the request to the RequestQueue.
 //        queue.add(request);
 
-        btn_refresh.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-//                queue.add(request);
-                sendData(userID, deviceID, token);
-            }
-        });
+//        btn_refresh.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View view) {
+//                sendData(userID, deviceID, token);
+//            }
+//        });
 
         btn_gettemp.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-//                queue.add(request);
-                getTemperature(token, userID);
+                getTemperature(token, userID, deviceID);
             }
         });
     }
@@ -131,19 +127,15 @@ public class TemperatureActivity extends AppCompatActivity {
         }
     }
 
-    public int getTemperature(String token, String userID) {
+    public void getTemperature(String token, String userID, String deviceID){
             try {
-                URL url = new URL("http://54.194.132.27:8080/api/record/" + userID);
+                URL url = new URL("http://54.194.132.27:8080/api/record/" + userID + "/" + deviceID);
 
                 HttpURLConnection conn3 = (HttpURLConnection) url.openConnection();
                 conn3.setDoOutput(false);
                 conn3.setRequestMethod("GET");
                 conn3.setRequestProperty("Content-Type", "application/json");
                 conn3.setRequestProperty("Authorization", "Bearer " + token);
-                System.out.println(token);
-                System.out.println(conn3.getResponseCode());
-                System.out.println(url.toString());
-                //System.out.println(conn3.getRequestProperties());
                 if (conn3.getResponseCode() == 200) {
                     conn3.getResponseCode();
                     InputStream inputStream = conn3.getInputStream();
@@ -154,17 +146,14 @@ public class TemperatureActivity extends AppCompatActivity {
                     while ((line = reader.readLine()) != null) {
                         sb.append(line);
                     }
-                    Gson g = new Gson();
-                    TemperatureDTO me = g.fromJson(sb.toString(), TemperatureDTO.class);
-                    et_temperature.setText(me.getTemp());
+
+                    et_temperature.setText(sb);
                 } else {
-                    System.out.println(conn3.getResponseCode() + " dalej nie dziala");
-                    Toast.makeText(TemperatureActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                    System.out.println("Error");
                 }
 
             } catch (Exception e) {
-                System.out.println(e.toString() + " no i co");
+                System.out.println(e.toString());
             }
-            return 0;
     }
 }

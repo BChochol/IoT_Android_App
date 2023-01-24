@@ -8,6 +8,8 @@
     android:background="#424242"
     tools:context=".ConnectActivity">
 
+
+
     <EditText
         android:id="@+id/networkName"
         android:layout_width="match_parent"
@@ -29,12 +31,39 @@
         android:padding="20dp"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/connectButton"
+        android:id="@+id/pairButton"
         android:layout_width="180dp"
-        android:layout_height="136dp"
+        android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:backgroundTint="#567fc7"
         android:layout_below="@+id/networkPassword"
-        android:text="CONNECT" />
+        android:text="PAIR WITH DEVICE" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/connectButton"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#567fc7"
+        android:layout_below="@+id/pairButton"
+        android:text="SEND NETWORK DATA" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/registerButton"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#567fc7"
+        android:layout_below="@+id/connectButton"
+        android:text="REGISTER DEVICE" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/tempButton"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#567fc7"
+        android:layout_below="@+id/registerButton"
+        android:text="GO TO TEMPERATURE" />
 
 </RelativeLayout>

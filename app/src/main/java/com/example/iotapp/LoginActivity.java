@@ -82,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                             System.out.println(me.getAccessToken());
                             Intent intent = new Intent(LoginActivity.this, ConnectActivity.class);
                             intent.putExtra("userID", usernameText);
+                            intent.putExtra("deviceID", me.getUsername());
                             intent.putExtra("message", me.getAccessToken());
                             startActivity(intent);
                         } else {

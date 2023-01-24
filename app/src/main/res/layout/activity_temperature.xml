@@ -24,21 +24,27 @@
         tools:layout_editor_absoluteY="229dp" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/refreshButton"
+        android:id="@+id/getTemperatureButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/temperature"
         android:layout_centerHorizontal="true"
         android:backgroundTint="#567fc7"
-        android:text="Register device" />
-
-        <com.google.android.material.button.MaterialButton
-        android:id="@+id/getTemperatureButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/refreshButton"
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="#567fc7"
         android:text="Get temperature" />
-
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:layout_below="@+id/getTemperatureButton"
+        android:text="If your device isn't registered, please register it first before getting the temperature."
+        android:textColor="#b8b8b8"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="64dp"
+        tools:layout_editor_absoluteY="229dp" />
 </RelativeLayout>
