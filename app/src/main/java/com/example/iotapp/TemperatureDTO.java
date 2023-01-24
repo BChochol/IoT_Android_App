@@ -5,7 +5,7 @@ import java.util.List;
 public class TemperatureDTO {
     private String deviceId;
     private String userId;
-    private int temp;
+    private String temp;
     private String timestamp;
 
     public void setDeviceId(String deviceId) {
@@ -20,7 +20,7 @@ public class TemperatureDTO {
         return userId;
     }
 
-    public int getTemp() {
+    public String getTemp() {
         return temp;
     }
 
@@ -32,7 +32,7 @@ public class TemperatureDTO {
         this.userId = userId;
     }
 
-    public void setTemp(int temp) {
+    public void setTemp(String temp) {
         this.temp = temp;
     }
 
@@ -40,7 +40,7 @@ public class TemperatureDTO {
         this.timestamp = timestamp;
     }
 
-    public TemperatureDTO(String deviceId, String userId, int temp, String timestamp) {
+    public TemperatureDTO(String deviceId, String userId, String temp, String timestamp) {
         this.deviceId = deviceId;
         this.userId = userId;
         this.temp = temp;

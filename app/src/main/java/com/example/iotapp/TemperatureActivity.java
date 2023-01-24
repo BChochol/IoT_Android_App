@@ -131,15 +131,15 @@ public class TemperatureActivity extends AppCompatActivity {
         }
     }
 
-    public void getTemperature(String token, String userID) {
+    public int getTemperature(String token, String userID) {
             try {
-                URL url = new URL("http://54.194.132.27:8080/api/record/admin");
+                URL url = new URL("http://54.194.132.27:8080/api/record/" + userID);
 
                 HttpURLConnection conn3 = (HttpURLConnection) url.openConnection();
-                conn3.setRequestProperty("Authorization", "Bearer " + token);
-                conn3.setDoOutput(true);
+                conn3.setDoOutput(false);
                 conn3.setRequestMethod("GET");
                 conn3.setRequestProperty("Content-Type", "application/json");
+                conn3.setRequestProperty("Authorization", "Bearer " + token);
                 System.out.println(token);
                 System.out.println(conn3.getResponseCode());
                 System.out.println(url.toString());
@@ -165,5 +165,6 @@ public class TemperatureActivity extends AppCompatActivity {
             } catch (Exception e) {
                 System.out.println(e.toString() + " no i co");
             }
+            return 0;
     }
 }
