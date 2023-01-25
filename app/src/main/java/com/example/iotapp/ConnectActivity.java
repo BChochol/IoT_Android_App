@@ -100,7 +100,6 @@ public class ConnectActivity extends AppCompatActivity {
                                 System.out.println("SuccessSuccessSuccessSuccessSuccessSuccessSuccessSuccessSuccessSuccessSuccessSuccessSuccessSuccessSuccess");
 
                             } else {
-                                Toast.makeText(ConnectActivity.this, "Incorrect login", Toast.LENGTH_LONG).show();
                             }
 
                         } catch (Exception e) {
@@ -133,12 +132,11 @@ public class ConnectActivity extends AppCompatActivity {
                 String networkName = username.getText().toString();
                 String networkPassword = password.getText().toString();
 
-
-                //connectToNetwork("AGHIOT_EXAMPLE", "", "");
-                sendMessage("SSID=" + networkName + ",Password=" + networkPassword + ",UserID=" + userID);
+                sendMessage(networkName, networkPassword, userID);
             }
 
-            private void sendMessage(final String message) {
+            private void sendMessage(String networkName, String networkPassword, String userID) {
+                String message = "SSID=" + networkName + ",Password=" + networkPassword + ",UserID=" + userID;
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -150,21 +148,42 @@ public class ConnectActivity extends AppCompatActivity {
 
                             OutputStream outputStream = socket.getOutputStream();
                             outputStream.write(message.getBytes());
-//                            Toast.makeText(getApplicationContext(), "Message sent", Toast.LENGTH_SHORT).show();
                             InputStream inputStream = socket.getInputStream();
                             byte[] response = new byte[1024];
                             int bytesRead = inputStream.read(response);
                             String responseString = new String(response, 0, bytesRead);
-                            //System.out.println(responseString + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                             outputStream.close();
-//                            Toast.makeText(getApplicationContext(), responseString, Toast.LENGTH_LONG).show();
                             if (!responseString.equals("")) {
+                                //Toast.makeText(ConnectActivity.this, "Succesfully sent", Toast.LENGTH_SHORT).show();
                                 deviceID = responseString;
-//                                Intent intent = new Intent(ConnectActivity.this, TemperatureActivity.class);
-//                                intent.putExtra("userID", userID);
-//                                intent.putExtra("deviceID", responseString);
-//                                intent.putExtra("message", token);
-//                                startActivity(intent);
+                            }
+
+                            ConnectivityManager.NetworkCallback mNetworkCallback = new ConnectivityManager.NetworkCallback() {
+                                @Override
+                                public void onAvailable(Network network) {
+                                    ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                                    connectivityManager.bindProcessToNetwork(network);
+                                }
+                            };
+
+                            if (android.os.Build.VERSION.SDK_INT >= 29) {
+                                System.out.println("Detected SDK: >=29");
+
+                                WifiNetworkSpecifier.Builder specifierBuilder = new WifiNetworkSpecifier.Builder();
+                                specifierBuilder.setSsid(networkName);
+                                specifierBuilder.setWpa2Passphrase(networkPassword);
+                                WifiNetworkSpecifier specifier = specifierBuilder.build();
+
+                                NetworkRequest.Builder requestBuilder = new NetworkRequest.Builder();
+                                requestBuilder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+                                requestBuilder.setNetworkSpecifier(specifier);
+                                NetworkRequest request = requestBuilder.build();
+
+                                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                                connectivityManager.requestNetwork(request, mNetworkCallback);
+                                connectivityManager.bindProcessToNetwork(null);
+                                connectivityManager.unregisterNetworkCallback(mNetworkCallback);
+                                System.out.println("Completed test");
                             }
 
                         } catch (IOException e) {
@@ -178,7 +197,6 @@ public class ConnectActivity extends AppCompatActivity {
         pairButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Send message when button is clicked
 
                 if(!Settings.System.canWrite(ConnectActivity.this)) {
                     Intent intent2 = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
@@ -189,7 +207,6 @@ public class ConnectActivity extends AppCompatActivity {
                 ConnectivityManager.NetworkCallback mNetworkCallback = new ConnectivityManager.NetworkCallback() {
                     @Override
                     public void onAvailable(Network network) {
-                        // Phone is connected to wifi network
                         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                         connectivityManager.bindProcessToNetwork(network);
                     }
@@ -199,8 +216,8 @@ public class ConnectActivity extends AppCompatActivity {
                     System.out.println("Detected SDK: >=29");
 
                     WifiNetworkSpecifier.Builder specifierBuilder = new WifiNetworkSpecifier.Builder();
-                    specifierBuilder.setSsid("Kasia");
-                    specifierBuilder.setWpa2Passphrase("Kasia441984");
+                    specifierBuilder.setSsid("AGHIOT_EXAMPLE");
+                    //specifierBuilder.setWpa2Passphrase("Kasia441984");
                     WifiNetworkSpecifier specifier = specifierBuilder.build();
 
                     NetworkRequest.Builder requestBuilder = new NetworkRequest.Builder();
@@ -210,7 +227,6 @@ public class ConnectActivity extends AppCompatActivity {
 
                     ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                     connectivityManager.requestNetwork(request, mNetworkCallback);
-
                     System.out.println("Completed test");
                 }
             }
